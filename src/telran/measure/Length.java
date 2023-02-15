@@ -18,15 +18,7 @@ public class Length implements Comparable<Length> {
 	 * equals two Length objects according to LengthUnit and amount 10m == 10000mm
 	 */
 	public boolean equals(Object obj) {
-		boolean res = true;
-		String objString = obj.toString();
-		if (!objString.equals(toString())) {
-			String objAmount = objString.split("[a-zA-Z]")[0];
-			String objUnit = objString.substring(objAmount.length(), objString.length());
-			Length newObj = new Length(Float.parseFloat(objAmount), lengthUnit.valueOf(objUnit));
-			res = this.toString().equals(newObj.convert(this.getUnit()).toString());
-		}
-		return res;
+		return compareTo((Length)obj) == 0;
 	}
 
 	@Override
@@ -36,10 +28,7 @@ public class Length implements Comparable<Length> {
 	 *         than "o" object, == 0 "this" object equals "o" object,
 	 */
 	public int compareTo(Length o) {
-		if (!this.getUnit().equals(o.getUnit())) {
-			o = o.convert(this.getUnit());
-		}
-		return (int) this.getAmount() - (int) o.getAmount();
+		return Float.compare(amount, o.convert(getUnit()).amount);
 	}
 
 	/**
